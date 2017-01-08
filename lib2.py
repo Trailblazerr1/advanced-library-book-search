@@ -8,20 +8,23 @@ def info(n):
     m='+'.join(s)
     #print(m)
 
-    search_url = "https://www.googleapis.com/books/v1/volumes?key=8888888888?q=" + m +"&maxResults=1&fields=items(id)"
+    search_url = "https://www.googleapis.com/books/v1/volumes?q=" + m +"&maxResults=1&fields=items(id)&key=AIzaSyDw_LcnZBrfoy7yQ6En52I0KexWzRLQsYk"
     header = {
         'Accept-Encoding': 'gzip',
         'User-Agent' : 'gzip'
     }
     search_res = requests.get(search_url, headers=header)
     search_rjson = search_res.json()
+    #print(search_url)
+   # print(search_rjson)
     try:
         book_id  = search_rjson['items'][0]['id']
-        book_url = "https://www.googleapis.com/books/v1/volumes/" + book_id +"?key=888888888&fields=volumeInfo/categories"
+        book_url = "https://www.googleapis.com/books/v1/volumes/" + book_id +"?key=AIzaSyDw_LcnZBrfoy7yQ6En52I0KexWzRLQsYk&fields=volumeInfo/categories"
         r = requests.get(book_url,headers=header)
         book_info = r.json()
         try:
             res = book_info['volumeInfo']['categories']
+            print(n)
             print(res)
         except KeyError:
             print("Oops!")
@@ -32,7 +35,7 @@ def info(n):
 
 
 print("Enter self: eg GR-2 ")
-self = input()
+self = 'GR-2'
 print('No. of books u wanna look upon: ')
 size = input()
 url = 'http://172.31.1.40/cgi-bin/OPAC.exe?UName=&Option=PageView&SQL=SELECT+accNo,title,author,status,shelfNo+FROM+BookDetails+WHERE+shelfNo+LIKE+|{'+self+'{|+ORDER+BY+shelfNo+asc&pageSize='+size+'&absolutePage=1'
