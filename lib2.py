@@ -7,18 +7,27 @@ def info(n):
     s=n.split()
     m='+'.join(s)
     #print(m)
-    search_url = "https://www.googleapis.com/books/v1/volumes?q=" + m +"&maxResults=1"
-    search_res = requests.get(search_url)
+
+    search_url = "https://www.googleapis.com/books/v1/volumes?key=8888888888?q=" + m +"&maxResults=1&fields=items(id)"
+    header = {
+        'Accept-Encoding': 'gzip',
+        'User-Agent' : 'gzip'
+    }
+    search_res = requests.get(search_url, headers=header)
     search_rjson = search_res.json()
-    book_id  = search_rjson['items'][0]['id']
-    book_url = "https://www.googleapis.com/books/v1/volumes/" + book_id
-    r = requests.get(book_url)
-    book_info = r.json()
     try:
-        res = book_info['volumeInfo']['categories']
-        print(res)
+        book_id  = search_rjson['items'][0]['id']
+        book_url = "https://www.googleapis.com/books/v1/volumes/" + book_id +"?key=888888888&fields=volumeInfo/categories"
+        r = requests.get(book_url,headers=header)
+        book_info = r.json()
+        try:
+            res = book_info['volumeInfo']['categories']
+            print(res)
+        except KeyError:
+            print("Oops!")
+            print(n)
     except KeyError:
-        print("Oops!")
+        print('Is this a book from future?')
         print(n)
 
 
