@@ -50,6 +50,7 @@ bs = BeautifulSoup(r.text,"lxml")
 ht = bs.body.form.center.table
 inside = ht.tr.next_sibling.next_sibling.next_sibling.next_sibling.table.next_sibling
 i =1
+print('Looking for '+genbk +'... hold on!')
 for sibling in inside.tr.next_siblings:
   # print('=======================================')
    data = repr(sibling.td.next_sibling.next_sibling.string)
