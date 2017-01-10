@@ -34,8 +34,8 @@ def info(n):
         print(n)
 
 
-print("Enter self: eg GR-2 ")
-self = 'GR-2'
+print("Enter self: eg. GR-1,GR-2,GR-3,I-3,D11,D12,D13 ")
+self = input()
 print('No. of books u wanna look upon: ')
 size = input()
 url = 'http://172.31.1.40/cgi-bin/OPAC.exe?UName=&Option=PageView&SQL=SELECT+accNo,title,author,status,shelfNo+FROM+BookDetails+WHERE+shelfNo+LIKE+|{'+self+'{|+ORDER+BY+shelfNo+asc&pageSize='+size+'&absolutePage=1'
@@ -50,11 +50,12 @@ for sibling in inside.tr.next_siblings:
    info(data)
    i=i+1
 
-# l = ['Fiction / Science Fiction / Action & Adventure', 'Fiction / Thrillers / General', 'Fiction / Science Fiction / Hard Science Fiction']
-# s = ''.join(l)
-# gen = re.split(', | /',s)
-# length = len(gen)
-# for i in range(length):
-#     if gen[i]=='Thrillers':
-#         print(gen[i])
-# print(len(gen))
+l = ['Fiction / Science Fiction / Action & Adventure', 'Fiction / Thrillers / General', 'Fiction / Science Fiction / Hard Science Fiction']
+s = ''.join(l)
+gen = re.split(', | /',s)
+length = len(gen)
+genre = 'Hard Science'
+for i in range(length):
+    if(gen[i]==' '+genre or gen[i]==genre):
+        print('----')
+print(len(gen))
