@@ -40,22 +40,25 @@ def info(n,genbk):
         print(n)
 
 
-print("Enter genre eg Fiction ")
+print("Enter genre eg. Fiction ")
 genbk = 'Thrillers'
 print('No. of books u wanna look upon: ')
 size = input()
-url = 'http://172.31.1.40/cgi-bin/OPAC.exe?UName=&Option=PageView&SQL=SELECT+accNo,title,author,status,shelfNo+FROM+BookDetails+WHERE+shelfNo+LIKE+|{GR-2{|+ORDER+BY+shelfNo+asc&pageSize='+size+'&absolutePage=1'
-r = requests.get(url)
-bs = BeautifulSoup(r.text,"lxml")
-ht = bs.body.form.center.table
-inside = ht.tr.next_sibling.next_sibling.next_sibling.next_sibling.table.next_sibling
-i =1
-print('Looking for '+genbk +'... hold on!')
-for sibling in inside.tr.next_siblings:
-  # print('=======================================')
-   data = repr(sibling.td.next_sibling.next_sibling.string)
-   info(data,genbk)
-   i=i+1
+shelfList = ['I-3','D11','D12','D13','GR-1','GR-2','GR-3']
+for k in shelfList:
+    print('Going for shelf '+k)
+    url = 'http://172.31.1.40/cgi-bin/OPAC.exe?UName=&Option=PageView&SQL=SELECT+accNo,title,author,status,shelfNo+FROM+BookDetails+WHERE+shelfNo+LIKE+|{'+k+'{|+ORDER+BY+shelfNo+asc&pageSize='+size+'&absolutePage=1'
+    r = requests.get(url)
+    bs = BeautifulSoup(r.text,"lxml")
+    ht = bs.body.form.center.table
+    inside = ht.tr.next_sibling.next_sibling.next_sibling.next_sibling.table.next_sibling
+    i =1
+    print('Looking for '+genbk +'... hold on!')
+    for sibling in inside.tr.next_siblings:
+    # print('=======================================')
+        data = repr(sibling.td.next_sibling.next_sibling.string)
+        info(data,genbk)
+        i=i+1
 
 # l = ['Fiction / Science Fiction / Action & Adventure', 'Fiction / Thrillers / General', 'Fiction / Science Fiction / Hard Science Fiction']
 # s = ''.join(l)
