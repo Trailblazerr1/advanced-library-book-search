@@ -2,8 +2,9 @@
 from bs4 import BeautifulSoup
 import re
 import requests
+import sys
 
-def info(n,genbk):
+def info(n,genbk,size,p):
     s=n.split()
     m='+'.join(s)
     #print(m)
@@ -31,35 +32,43 @@ def info(n,genbk):
             length = len(gen)
             for i in range(length):
                 if (gen[i] == ' ' + genbk or gen[i] == genbk):
+                    p=p+1
+                    print(p)
+                    print(size)
                     print(n)
                     print('----------------')
+                    # if(p==size):
+                    #     os._exit(1)
         except KeyError:
             pass
     except KeyError:
-        print('Is this a book from future?')
-        print(n)
+        pass
+    return p
 
 
 print("Enter genre eg. Fiction ")
 genbk = 'Thrillers'
 print('No. of books u wanna look upon: ')
-size = input()
+size = int(input())
+print('Looking for ' + genbk + '... hold on!')
 shelfList = ['I-3','D11','D12','D13','GR-1','GR-2','GR-3']
+p = 0
 for k in shelfList:
     print('Going for shelf '+k)
-    url = 'http://172.31.1.40/cgi-bin/OPAC.exe?UName=&Option=PageView&SQL=SELECT+accNo,title,author,status,shelfNo+FROM+BookDetails+WHERE+shelfNo+LIKE+|{'+k+'{|+ORDER+BY+shelfNo+asc&pageSize='+size+'&absolutePage=1'
+    url = 'http://172.31.1.40/cgi-bin/OPAC.exe?UName=&Option=PageView&SQL=SELECT+accNo,title,author,status,shelfNo+FROM+BookDetails+WHERE+shelfNo+LIKE+|{'+k+'{|+ORDER+BY+shelfNo+asc&pageSize=180&absolutePage=1'
     r = requests.get(url)
     bs = BeautifulSoup(r.text,"lxml")
     ht = bs.body.form.center.table
     inside = ht.tr.next_sibling.next_sibling.next_sibling.next_sibling.table.next_sibling
-    i =1
-    print('Looking for '+genbk +'... hold on!')
     for sibling in inside.tr.next_siblings:
     # print('=======================================')
         data = repr(sibling.td.next_sibling.next_sibling.string)
-        info(data,genbk)
-        i=i+1
+        p = info(data,genbk,size,p)
+        if p == size:
+            print('break') #isn't working
+            sys.exit()
 
+print(p)
 # l = ['Fiction / Science Fiction / Action & Adventure', 'Fiction / Thrillers / General', 'Fiction / Science Fiction / Hard Science Fiction']
 # s = ''.join(l)
 # gen = re.split(', | /',s)
