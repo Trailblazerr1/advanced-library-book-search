@@ -50,7 +50,7 @@ for sibling in inside.tr.next_siblings:
    info(data)
    i=i+1
 
-l = ['Fiction / Science Fiction / Action & Adventure', 'Fiction / Thrillers / General', 'Fiction / Science Fiction / Hard Science Fiction']
+'''l = ['Fiction / Science Fiction / Action & Adventure', 'Fiction / Thrillers / General', 'Fiction / Science Fiction / Hard Science Fiction']
 s = ''.join(l)
 gen = re.split(', | /',s)
 length = len(gen)
@@ -58,4 +58,4 @@ genre = 'Hard Science'
 for i in range(length):
     if(gen[i]==' '+genre or gen[i]==genre):
         print('----')
-print(len(gen))
+print(len(gen))'''
