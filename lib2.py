@@ -8,7 +8,7 @@ def info(n):
     m='+'.join(s)
     #print(m)
 
-    search_url = "https://www.googleapis.com/books/v1/volumes?q=" + m +"&maxResults=1&fields=items(id)&key=AIzaSyDw_LcnZBrfoy7yQ6En52I0KexWzRLQsYk"
+    search_url = "https://www.googleapis.com/books/v1/volumes?q=" + m +"&maxResults=1&fields=items(id)&key=keyy"
     header = {
         'Accept-Encoding': 'gzip',
         'User-Agent' : 'gzip'
@@ -19,7 +19,7 @@ def info(n):
    # print(search_rjson)
     try:
         book_id  = search_rjson['items'][0]['id']
-        book_url = "https://www.googleapis.com/books/v1/volumes/" + book_id +"?key=AIzaSyDw_LcnZBrfoy7yQ6En52I0KexWzRLQsYk&fields=volumeInfo/categories"
+        book_url = "https://www.googleapis.com/books/v1/volumes/" + book_id +"?key=keyy&fields=volumeInfo/categories"
         r = requests.get(book_url,headers=header)
         book_info = r.json()
         try:
